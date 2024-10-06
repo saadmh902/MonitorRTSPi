@@ -12,5 +12,8 @@
 
 <h2>Installation Instructions</h2>
 <p>Download MonitorRTSPi-Installer.sh to /home/user/ directory, then run the file</p>
-<code>curl -o /home/<user>/MonitorRTSPi-Installer.sh https://raw.githubusercontent.com/saadmh902/MonitorRTSPi/main/MonitorRTSPi-Installer.sh
-./MonitorRTSPI-Installer.sh</code>
+<code>
+curl -o /home/<user>/MonitorRTSPi-Installer.sh https://raw.githubusercontent.com/saadmh902/MonitorRTSPi/main/MonitorRTSPi-Installer.sh
+sudo ./MonitorRTSPI-Installer.sh
+
+</code>
