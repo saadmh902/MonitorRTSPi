@@ -5,5 +5,5 @@
 
 <h2>Features:</h2>
 <p>Simple set up, enter IP, username and password and desired channel of the stream</p>
-<p>Detects if stream goes down and will automatically reinitialie stream</p>
+<p>Detects if stream goes down and will automatically reinitialize stream</p>
 <p>If the Raspberry Pi loses power it will automatically relaunch stream on boot up</p>
