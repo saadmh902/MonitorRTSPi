@@ -1,7 +1,7 @@
 #!/bin/bash
-#Check if VLC is running, if it crashes reopen VLC
-#Pings RTSP server, it fails over and over again close VLC and ping RTSP server until it is open, then relaunch VLC
-#
+# Check if VLC is running, if it crashes reopen VLC
+# Pings RTSP server, it fails over and over again close VLC and ping RTSP server until it is open, then relaunch VLC
+
 CHECK_INTERVAL=10  # Interval to check VLC logs and status
 RESTART_INTERVAL=604800 # Time in seconds to restart VLC (30 minutes)
 PING_INTERVAL=1     # Ping interval in seconds
@@ -11,10 +11,15 @@ LOG_FILES=(
     "$(dirname "$0")/vlc-log.txt"
     "$(dirname "$0")/vlc_log.txt"
 )
+RTSP_INFO_FILE="$(dirname "$0")/RTSPInfo.txt"  # File containing the RTSP URL
 
 function start_vlc {
-    echo "$(date): Starting VLC..."
-    sudo -u hawk vlc --play-and-exit --fullscreen > /dev/null 2> vlc_error.log &
+    # Read the RTSP URL from the file
+    local rtsp_url
+    rtsp_url=$(< "$RTSP_INFO_FILE")
+
+    echo "$(date): Starting VLC with stream: $rtsp_url..."
+    sudo -u hawk vlc --play-and-exit --fullscreen "$rtsp_url" > /dev/null 2> vlc_error.log &
     # Wait for VLC to launch
     while ! pgrep -x "vlc" > /dev/null; do
         sleep 1  # Wait for 1 second before checking again
