@@ -10,6 +10,7 @@ FILES=(
     "$DIRECTORY/newstart.sh"
 )
 AUTOSTART_FILE="/etc/xdg/autostart/launch.desktop"
+RTSP_INFO_FILE="$DIRECTORY/RTSPInfo.txt"
 
 URLS=(
     "https://raw.githubusercontent.com/saadmh902/MonitorRTSPi/main/etc/xdg/autostart/launch.desktop"
@@ -28,6 +29,13 @@ if [ $? -ne 0 ]; then
     echo "Error downloading files. Exiting."
     exit 1
 fi
+
+# Request user input for RTSP Stream URL
+read -p "RTSP Stream URL (Example: rtsp://<USERNAME>:<PASSWORD>@<IP>:<Port>/ch1/1/): " RTSP_URL
+
+# Write the RTSP URL to RTSPInfo.txt
+echo "$RTSP_URL" > "$RTSP_INFO_FILE"
+echo "RTSP Stream URL saved to $RTSP_INFO_FILE."
 
 # Set the permissions for the directory
 if [ -d "$DIRECTORY" ]; then
