@@ -35,7 +35,7 @@ echo "Creating launch.sh..."
 {
     echo "#!/bin/bash"
     echo "# Opens the terminal and runs newstart.sh script to view connection to camera, and writes log"
-    echo "sudo lxterminal --command=\"$DIRECTORY/newstart.sh\" > \"$DIRECTORY/logged.log\""
+    echo "lxterminal --command=\"$DIRECTORY/newstart.sh\" > \"$DIRECTORY/logged.log\""
 } > "${FILES[0]}"
 
 # Create the launch.desktop file with the appropriate content
