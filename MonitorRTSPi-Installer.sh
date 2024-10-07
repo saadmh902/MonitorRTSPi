@@ -5,6 +5,7 @@ SCRIPT_DIR=$(dirname "$(realpath "$0")")
 
 # Determine the user and their home directory based on the script's location
 USER_HOME=$(getent passwd "$(stat -c '%U' "$SCRIPT_DIR")" | cut -d: -f6)
+CURRENT_USER=$(basename "$USER_HOME")  # Get the current user's username from the home directory
 
 # Define the files and URLs
 DIRECTORY="$USER_HOME"
@@ -16,30 +17,22 @@ AUTOSTART_FILE="/etc/xdg/autostart/launch.desktop"
 RTSP_INFO_FILE="$DIRECTORY/RTSPInfo.txt"
 RTSP_SERVER_IP_FILE="$DIRECTORY/rtsp_server_ip.txt"  # File for RTSP Server IP
 
-URLS=(
-    "https://raw.githubusercontent.com/saadmh902/MonitorRTSPi/main/etc/xdg/autostart/launch.desktop"
-    "https://raw.githubusercontent.com/saadmh902/MonitorRTSPi/main/home/user/newstart.sh"
-)
-
-# Download the autostart file and newstart.sh
-echo "Downloading files..."
-curl -o "$AUTOSTART_FILE" "${URLS[0]}"  # Download launch.desktop to /etc/xdg/autostart/
-curl -o "${FILES[1]}" "${URLS[1]}"      # Download newstart.sh to home directory
-
-# Check if download was successful
-if [ $? -ne 0 ]; then
-    echo "Error downloading files. Exiting."
-    exit 1
-fi
-
 # Create launch.sh file with appropriate content
 echo "Creating launch.sh..."
 cat << 'EOF' > "${FILES[0]}"
 #!/bin/bash
 # Opens the terminal and runs newstart.sh script to view connection to camera, and writes log
 sudo lxterminal --command="$HOME/newstart.sh" > "$HOME/logged.log"
+EOF 
+# Create the launch.desktop file with the appropriate content
+echo "Creating launch.desktop..."
+cat << EOF > "$AUTOSTART_FILE"
+[Desktop Entry]
+Type=Application
+Name=LaunchScript
+Exec=bash -c "DISPLAY=:0 /home/$CURRENT_USER/launch.sh"
+X-GNOME-Autostart-enabled=true
 EOF
-
 # Request user input for RTSP Stream URL
 read -p "RTSP Stream URL (Example: rtsp://<USERNAME>:<PASSWORD>@<IP>:<Port>/ch1/1/): " RTSP_URL
 
