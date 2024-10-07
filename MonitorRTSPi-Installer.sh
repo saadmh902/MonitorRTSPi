@@ -17,6 +17,19 @@ AUTOSTART_FILE="/etc/xdg/autostart/launch.desktop"
 RTSP_URL_FILE="$DIRECTORY/rtsp_url.txt"        # File for RTSP Stream URL
 RTSP_SERVER_IP_FILE="$DIRECTORY/rtsp_server_ip.txt"  # File for RTSP Server IP
 
+# URL to download newstart.sh
+NEWSTART_URL="https://raw.githubusercontent.com/saadmh902/MonitorRTSPi/main/home/user/newstart.sh"
+
+# Download the newstart.sh file
+echo "Downloading newstart.sh..."
+curl -o "${FILES[1]}" "$NEWSTART_URL"
+
+# Check if the download was successful
+if [ $? -ne 0 ]; then
+    echo "Error downloading newstart.sh. Exiting."
+    exit 1
+fi
+
 # Create launch.sh file with appropriate content
 echo "Creating launch.sh..."
 cat << 'EOF' > "${FILES[0]}"
