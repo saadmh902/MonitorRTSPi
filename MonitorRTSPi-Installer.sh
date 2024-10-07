@@ -30,6 +30,9 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+# Change ownership of newstart.sh to current user immediately after downloading
+sudo chown "$CURRENT_USER:$CURRENT_USER" "${FILES[1]}"
+
 # Create launch.sh file with appropriate content
 echo "Creating launch.sh..."
 {
