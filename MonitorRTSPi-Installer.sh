@@ -17,21 +17,27 @@ RTSP_INFO_FILE="$DIRECTORY/RTSPInfo.txt"
 
 URLS=(
     "https://raw.githubusercontent.com/saadmh902/MonitorRTSPi/main/etc/xdg/autostart/launch.desktop"
-    "https://raw.githubusercontent.com/saadmh902/MonitorRTSPi/main/home/user/launch.sh"
     "https://raw.githubusercontent.com/saadmh902/MonitorRTSPi/main/home/user/newstart.sh"
 )
 
-# Download the files
+# Download the autostart file and newstart.sh
 echo "Downloading files..."
 curl -o "$AUTOSTART_FILE" "${URLS[0]}"  # Download launch.desktop to /etc/xdg/autostart/
-curl -o "${FILES[0]}" "${URLS[1]}"      # Download launch.sh to home directory
-curl -o "${FILES[1]}" "${URLS[2]}"      # Download newstart.sh to home directory
+curl -o "${FILES[1]}" "${URLS[1]}"      # Download newstart.sh to home directory
 
 # Check if download was successful
 if [ $? -ne 0 ]; then
     echo "Error downloading files. Exiting."
     exit 1
 fi
+
+# Create launch.sh file with appropriate content
+echo "Creating launch.sh..."
+cat << 'EOF' > "${FILES[0]}"
+#!/bin/bash
+# Opens the terminal and runs newstart.sh script to view connection to camera, and writes log
+sudo lxterminal --command="$HOME/newstart.sh" > "$HOME/logged.log"
+EOF
 
 # Request user input for RTSP Stream URL
 read -p "RTSP Stream URL (Example: rtsp://<USERNAME>:<PASSWORD>@<IP>:<Port>/ch1/1/): " RTSP_URL
