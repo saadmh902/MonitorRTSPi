@@ -14,7 +14,7 @@ FILES=(
     "$DIRECTORY/newstart.sh"
 )
 AUTOSTART_FILE="/etc/xdg/autostart/launch.desktop"
-RTSP_INFO_FILE="$DIRECTORY/RTSPInfo.txt"
+RTSP_URL_FILE="$DIRECTORY/rtsp_url.txt"        # File for RTSP Stream URL
 RTSP_SERVER_IP_FILE="$DIRECTORY/rtsp_server_ip.txt"  # File for RTSP Server IP
 
 # Create launch.sh file with appropriate content
@@ -24,6 +24,7 @@ cat << 'EOF' > "${FILES[0]}"
 # Opens the terminal and runs newstart.sh script to view connection to camera, and writes log
 sudo lxterminal --command="$HOME/newstart.sh" > "$HOME/logged.log"
 EOF 
+
 # Create the launch.desktop file with the appropriate content
 echo "Creating launch.desktop..."
 cat << EOF > "$AUTOSTART_FILE"
@@ -33,12 +34,13 @@ Name=LaunchScript
 Exec=bash -c "DISPLAY=:0 /home/$CURRENT_USER/launch.sh"
 X-GNOME-Autostart-enabled=true
 EOF
+
 # Request user input for RTSP Stream URL
 read -p "RTSP Stream URL (Example: rtsp://<USERNAME>:<PASSWORD>@<IP>:<Port>/ch1/1/): " RTSP_URL
 
-# Write the RTSP URL to RTSPInfo.txt
-echo "$RTSP_URL" > "$RTSP_INFO_FILE"
-echo "RTSP Stream URL saved to $RTSP_INFO_FILE."
+# Write the RTSP URL to rtsp_url.txt
+echo "$RTSP_URL" > "$RTSP_URL_FILE"
+echo "RTSP Stream URL saved to $RTSP_URL_FILE."
 
 # Request user input for RTSP Server IP
 read -p "RTSP Server IP (Example: <IP>): " RTSP_SERVER_IP
