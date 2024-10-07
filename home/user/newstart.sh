@@ -6,12 +6,26 @@ CHECK_INTERVAL=10  # Interval to check VLC logs and status
 RESTART_INTERVAL=604800 # Time in seconds to restart VLC (30 minutes)
 PING_INTERVAL=1     # Ping interval in seconds
 MAX_FAILED_PINGS=6  # Number of failed pings before closing VLC
-TARGET_IP="192.168.0.22"
 LOG_FILES=(
     "$(dirname "$0")/vlc-log.txt"
     "$(dirname "$0")/vlc_log.txt"
 )
 RTSP_INFO_FILE="$(dirname "$0")/RTSPInfo.txt"  # File containing the RTSP URL
+
+# Function to extract IP address from RTSP URL
+function get_target_ip {
+    if [[ -f "$RTSP_INFO_FILE" ]]; then
+        local rtsp_url
+        rtsp_url=$(< "$RTSP_INFO_FILE")
+        
+        # Extract IP address from the RTSP URL using regex
+        TARGET_IP=$(echo "$rtsp_url" | grep -oP '(?<=rtsp://)[^:/]+')
+        echo "$(date): Extracted IP: $TARGET_IP from RTSP URL: $rtsp_url"
+    else
+        echo "$(date): Error - RTSP info file not found!"
+        exit 1
+    fi
+}
 
 function start_vlc {
     # Read the RTSP URL from the file
@@ -88,6 +102,9 @@ function wait_for_ping {
         sleep "$PING_INTERVAL"
     done
 }
+
+# Extract the IP address from the RTSP URL at the start
+get_target_ip
 
 # Start VLC when the script is launched
 start_vlc
