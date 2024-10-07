@@ -2,5 +2,5 @@
 Type=Application
 Name=LaunchScript
 #Exec=lxterminal -e "echo 'Autostart works!'; read"
-Exec=bash -c "DISPLAY=:0 /home/hawk/launch.sh"
+Exec=bash -c "DISPLAY=:0 /home/saad/launch.sh"
 X-GNOME-Autostart-enabled=true
