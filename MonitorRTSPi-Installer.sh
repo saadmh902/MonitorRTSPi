@@ -14,6 +14,7 @@ FILES=(
 )
 AUTOSTART_FILE="/etc/xdg/autostart/launch.desktop"
 RTSP_INFO_FILE="$DIRECTORY/RTSPInfo.txt"
+RTSP_SERVER_IP_FILE="$DIRECTORY/rtsp_server_ip.txt"  # File for RTSP Server IP
 
 URLS=(
     "https://raw.githubusercontent.com/saadmh902/MonitorRTSPi/main/etc/xdg/autostart/launch.desktop"
@@ -45,6 +46,13 @@ read -p "RTSP Stream URL (Example: rtsp://<USERNAME>:<PASSWORD>@<IP>:<Port>/ch1/
 # Write the RTSP URL to RTSPInfo.txt
 echo "$RTSP_URL" > "$RTSP_INFO_FILE"
 echo "RTSP Stream URL saved to $RTSP_INFO_FILE."
+
+# Request user input for RTSP Server IP
+read -p "RTSP Server IP (Example: <IP>): " RTSP_SERVER_IP
+
+# Write the RTSP Server IP to rtsp_server_ip.txt
+echo "$RTSP_SERVER_IP" > "$RTSP_SERVER_IP_FILE"
+echo "RTSP Server IP saved to $RTSP_SERVER_IP_FILE."
 
 # Set the permissions for the directory
 if [ -d "$DIRECTORY" ]; then
