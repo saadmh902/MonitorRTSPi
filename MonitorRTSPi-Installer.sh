@@ -32,17 +32,27 @@ fi
 
 # Create launch.sh file with appropriate content
 echo "Creating launch.sh..."
-echo "#!/bin/bash" > "${FILES[0]}"
-echo "# Opens the terminal and runs newstart.sh script to view connection to camera, and writes log" >> "${FILES[0]}"
-echo "sudo lxterminal --command=\"$DIRECTORY/newstart.sh\" > \"$DIRECTORY/logged.log\"" >> "${FILES[0]}"
+{
+    echo "#!/bin/bash"
+    echo "# Opens the terminal and runs newstart.sh script to view connection to camera, and writes log"
+    echo "sudo lxterminal --command=\"$DIRECTORY/newstart.sh\" > \"$DIRECTORY/logged.log\""
+} > "${FILES[0]}"
+
+# Change ownership of launch.sh to current user
+sudo chown "$CURRENT_USER:$CURRENT_USER" "${FILES[0]}"
 
 # Create the launch.desktop file with the appropriate content
 echo "Creating launch.desktop..."
-echo "[Desktop Entry]" > "$AUTOSTART_FILE"
-echo "Type=Application" >> "$AUTOSTART_FILE"
-echo "Name=LaunchScript" >> "$AUTOSTART_FILE"
-echo "Exec=bash -c \"DISPLAY=:0 $DIRECTORY/launch.sh\"" >> "$AUTOSTART_FILE"
-echo "X-GNOME-Autostart-enabled=true" >> "$AUTOSTART_FILE"
+{
+    echo "[Desktop Entry]"
+    echo "Type=Application"
+    echo "Name=LaunchScript"
+    echo "Exec=bash -c \"DISPLAY=:0 $DIRECTORY/launch.sh\""
+    echo "X-GNOME-Autostart-enabled=true"
+} > "$AUTOSTART_FILE"
+
+# Change ownership of launch.desktop to current user
+sudo chown "$CURRENT_USER:$CURRENT_USER" "$AUTOSTART_FILE"
 
 # Request user input for RTSP Stream URL
 read -p "RTSP Stream URL (Example: rtsp://<USERNAME>:<PASSWORD>@<IP>:<Port>/ch1/1/): " RTSP_URL
@@ -51,12 +61,18 @@ read -p "RTSP Stream URL (Example: rtsp://<USERNAME>:<PASSWORD>@<IP>:<Port>/ch1/
 echo "$RTSP_URL" > "$RTSP_URL_FILE"
 echo "RTSP Stream URL saved to $RTSP_URL_FILE."
 
+# Change ownership of rtsp_url.txt to current user
+sudo chown "$CURRENT_USER:$CURRENT_USER" "$RTSP_URL_FILE"
+
 # Request user input for RTSP Server IP
 read -p "RTSP Server IP (Example: <IP>): " RTSP_SERVER_IP
 
 # Write the RTSP Server IP to rtsp_server_ip.txt
 echo "$RTSP_SERVER_IP" > "$RTSP_SERVER_IP_FILE"
 echo "RTSP Server IP saved to $RTSP_SERVER_IP_FILE."
+
+# Change ownership of rtsp_server_ip.txt to current user
+sudo chown "$CURRENT_USER:$CURRENT_USER" "$RTSP_SERVER_IP_FILE"
 
 # Set the permissions for the directory
 if [ -d "$DIRECTORY" ]; then
