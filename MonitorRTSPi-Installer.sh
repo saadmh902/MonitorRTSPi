@@ -30,9 +30,6 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# Change ownership of newstart.sh to current user immediately after downloading
-sudo chown "$CURRENT_USER:$CURRENT_USER" "${FILES[1]}"
-
 # Create launch.sh file with appropriate content
 echo "Creating launch.sh..."
 {
@@ -40,9 +37,6 @@ echo "Creating launch.sh..."
     echo "# Opens the terminal and runs newstart.sh script to view connection to camera, and writes log"
     echo "sudo lxterminal --command=\"$DIRECTORY/newstart.sh\" > \"$DIRECTORY/logged.log\""
 } > "${FILES[0]}"
-
-# Change ownership of launch.sh to current user
-sudo chown "$CURRENT_USER:$CURRENT_USER" "${FILES[0]}"
 
 # Create the launch.desktop file with the appropriate content
 echo "Creating launch.desktop..."
@@ -54,9 +48,6 @@ echo "Creating launch.desktop..."
     echo "X-GNOME-Autostart-enabled=true"
 } > "$AUTOSTART_FILE"
 
-# Change ownership of launch.desktop to current user
-sudo chown "$CURRENT_USER:$CURRENT_USER" "$AUTOSTART_FILE"
-
 # Request user input for RTSP Stream URL
 read -p "RTSP Stream URL (Example: rtsp://<USERNAME>:<PASSWORD>@<IP>:<Port>/ch1/1/): " RTSP_URL
 
@@ -64,18 +55,12 @@ read -p "RTSP Stream URL (Example: rtsp://<USERNAME>:<PASSWORD>@<IP>:<Port>/ch1/
 echo "$RTSP_URL" > "$RTSP_URL_FILE"
 echo "RTSP Stream URL saved to $RTSP_URL_FILE."
 
-# Change ownership of rtsp_url.txt to current user
-sudo chown "$CURRENT_USER:$CURRENT_USER" "$RTSP_URL_FILE"
-
 # Request user input for RTSP Server IP
 read -p "RTSP Server IP (Example: <IP>): " RTSP_SERVER_IP
 
 # Write the RTSP Server IP to rtsp_server_ip.txt
 echo "$RTSP_SERVER_IP" > "$RTSP_SERVER_IP_FILE"
 echo "RTSP Server IP saved to $RTSP_SERVER_IP_FILE."
-
-# Change ownership of rtsp_server_ip.txt to current user
-sudo chown "$CURRENT_USER:$CURRENT_USER" "$RTSP_SERVER_IP_FILE"
 
 # Set the permissions for the directory
 if [ -d "$DIRECTORY" ]; then
@@ -98,5 +83,8 @@ done
 # Make sure scripts are executable
 chmod +x "$DIRECTORY/launch.sh"
 chmod +x "$DIRECTORY/newstart.sh"
+
+# Change ownership of newstart.sh to the current user at the end
+sudo chown "$CURRENT_USER:$CURRENT_USER" "${FILES[1]}"
 
 echo "All permissions set successfully."
