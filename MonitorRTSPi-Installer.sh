@@ -32,21 +32,17 @@ fi
 
 # Create launch.sh file with appropriate content
 echo "Creating launch.sh..."
-cat << EOF > "${FILES[0]}"
-#!/bin/bash
-# Opens the terminal and runs newstart.sh script to view connection to camera, and writes log
-sudo lxterminal --command="\$HOME/newstart.sh" > "\$HOME/logged.log"
-EOF  # Ensure EOF is on a new line
+echo "#!/bin/bash" > "${FILES[0]}"
+echo "# Opens the terminal and runs newstart.sh script to view connection to camera, and writes log" >> "${FILES[0]}"
+echo "sudo lxterminal --command=\"\$HOME/newstart.sh\" > \"\$HOME/logged.log\"" >> "${FILES[0]}"
 
 # Create the launch.desktop file with the appropriate content
 echo "Creating launch.desktop..."
-cat << EOF > "$AUTOSTART_FILE"
-[Desktop Entry]
-Type=Application
-Name=LaunchScript
-Exec=bash -c "DISPLAY=:0 /home/$CURRENT_USER/launch.sh"
-X-GNOME-Autostart-enabled=true
-EOF  # Ensure EOF is on a new line
+echo "[Desktop Entry]" > "$AUTOSTART_FILE"
+echo "Type=Application" >> "$AUTOSTART_FILE"
+echo "Name=LaunchScript" >> "$AUTOSTART_FILE"
+echo "Exec=bash -c \"DISPLAY=:0 /home/$CURRENT_USER/launch.sh\"" >> "$AUTOSTART_FILE"
+echo "X-GNOME-Autostart-enabled=true" >> "$AUTOSTART_FILE"
 
 # Request user input for RTSP Stream URL
 read -p "RTSP Stream URL (Example: rtsp://<USERNAME>:<PASSWORD>@<IP>:<Port>/ch1/1/): " RTSP_URL
