@@ -1,9 +1,9 @@
 #!/bin/bash
 # Check if VLC is running, if it crashes reopen VLC
-# Pings RTSP server, it fails over and over again close VLC and ping RTSP server until it is open, then relaunch VLC
+# Pings RTSP server, if it fails over and over again close VLC and ping RTSP server until it is open, then relaunch VLC
 
 CHECK_INTERVAL=10  # Interval to check VLC logs and status
-RESTART_INTERVAL=604800 # Time in seconds to restart VLC (30 minutes)
+RESTART_INTERVAL=604800 # Time in seconds to restart VLC (7 days)
 PING_INTERVAL=1     # Ping interval in seconds
 MAX_FAILED_PINGS=6  # Number of failed pings before closing VLC
 LOG_FILES=(
@@ -11,18 +11,15 @@ LOG_FILES=(
     "$(dirname "$0")/vlc_log.txt"
 )
 RTSP_INFO_FILE="$(dirname "$0")/RTSPInfo.txt"  # File containing the RTSP URL
+RTSP_SERVER_IP_FILE="$(dirname "$0")/RTSP_ServerIP"  # File containing the RTSP Server IP
 
-# Function to extract IP address from RTSP URL
+# Function to read the IP address from RTSP_ServerIP file
 function get_target_ip {
-    if [[ -f "$RTSP_INFO_FILE" ]]; then
-        local rtsp_url
-        rtsp_url=$(< "$RTSP_INFO_FILE")
-        
-        # Extract IP address from the RTSP URL using regex
-        TARGET_IP=$(echo "$rtsp_url" | grep -oP '(?<=rtsp://)[^:/]+')
-        echo "$(date): Extracted IP: $TARGET_IP from RTSP URL: $rtsp_url"
+    if [[ -f "$RTSP_SERVER_IP_FILE" ]]; then
+        TARGET_IP=$(< "$RTSP_SERVER_IP_FILE")
+        echo "$(date): Read IP: $TARGET_IP from RTSP server IP file."
     else
-        echo "$(date): Error - RTSP info file not found!"
+        echo "$(date): Error - RTSP server IP file not found!"
         exit 1
     fi
 }
@@ -103,9 +100,9 @@ function wait_for_ping {
     done
 }
 
-# Extract the IP address from the RTSP URL at the start
+# Read the IP address from RTSP_ServerIP at the start
 get_target_ip
-echo $RTSP_INFO_FILE
+
 # Start VLC when the script is launched
 start_vlc
 
