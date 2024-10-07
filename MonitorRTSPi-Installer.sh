@@ -49,14 +49,14 @@ echo "Creating launch.desktop..."
 } > "$AUTOSTART_FILE"
 
 # Request user input for RTSP Stream URL
-read -p "RTSP Stream URL (Example: rtsp://<USERNAME>:<PASSWORD>@<IP>:<Port>/ch1/1/): " RTSP_URL
+read -p "RTSP Stream URL (Example: rtsp://admin:password@192.168.0.1:554/ch1/1/): " RTSP_URL
 
 # Write the RTSP URL to rtsp_url.txt
 echo "$RTSP_URL" > "$RTSP_URL_FILE"
 echo "RTSP Stream URL saved to $RTSP_URL_FILE."
 
 # Request user input for RTSP Server IP
-read -p "RTSP Server IP (Example: <IP>): " RTSP_SERVER_IP
+read -p "RTSP Server IP (Example: 192.168.0.1): " RTSP_SERVER_IP
 
 # Write the RTSP Server IP to rtsp_server_ip.txt
 echo "$RTSP_SERVER_IP" > "$RTSP_SERVER_IP_FILE"
