@@ -36,7 +36,7 @@ cat << EOF > "${FILES[0]}"
 #!/bin/bash
 # Opens the terminal and runs newstart.sh script to view connection to camera, and writes log
 sudo lxterminal --command="\$HOME/newstart.sh" > "\$HOME/logged.log"
-EOF 
+EOF  # Ensure EOF is on a new line
 
 # Create the launch.desktop file with the appropriate content
 echo "Creating launch.desktop..."
@@ -46,7 +46,7 @@ Type=Application
 Name=LaunchScript
 Exec=bash -c "DISPLAY=:0 /home/$CURRENT_USER/launch.sh"
 X-GNOME-Autostart-enabled=true
-EOF
+EOF  # Ensure EOF is on a new line
 
 # Request user input for RTSP Stream URL
 read -p "RTSP Stream URL (Example: rtsp://<USERNAME>:<PASSWORD>@<IP>:<Port>/ch1/1/): " RTSP_URL
