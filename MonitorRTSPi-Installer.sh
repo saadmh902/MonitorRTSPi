@@ -1,7 +1,10 @@
 #!/bin/bash
 
-# Get the current user's home directory
-USER_HOME=$(eval echo "~$USER")
+# Determine the directory of the current script
+SCRIPT_DIR=$(dirname "$(realpath "$0")")
+
+# Determine the user and their home directory based on the script's location
+USER_HOME=$(getent passwd "$(stat -c '%U' "$SCRIPT_DIR")" | cut -d: -f6)
 
 # Define the files and URLs
 DIRECTORY="$USER_HOME"
