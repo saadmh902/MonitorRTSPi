@@ -105,7 +105,7 @@ function wait_for_ping {
 
 # Extract the IP address from the RTSP URL at the start
 get_target_ip
-
+echo $RTSP_INFO_FILE
 # Start VLC when the script is launched
 start_vlc
 
