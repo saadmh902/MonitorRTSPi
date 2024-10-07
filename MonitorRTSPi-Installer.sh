@@ -32,10 +32,10 @@ fi
 
 # Create launch.sh file with appropriate content
 echo "Creating launch.sh..."
-cat << 'EOF' > "${FILES[0]}"
+cat << EOF > "${FILES[0]}"
 #!/bin/bash
 # Opens the terminal and runs newstart.sh script to view connection to camera, and writes log
-sudo lxterminal --command="$HOME/newstart.sh" > "$HOME/logged.log"
+sudo lxterminal --command="\$HOME/newstart.sh" > "\$HOME/logged.log"
 EOF 
 
 # Create the launch.desktop file with the appropriate content
