@@ -10,8 +10,8 @@ LOG_FILES=(
     "$(dirname "$0")/vlc-log.txt"
     "$(dirname "$0")/vlc_log.txt"
 )
-RTSP_INFO_FILE="$(dirname "$0")/RTSPInfo.txt"  # File containing the RTSP URL
-RTSP_SERVER_IP_FILE="$(dirname "$0")/RTSP_ServerIP"  # File containing the RTSP Server IP
+RTSP_INFO_FILE="$(dirname "$0")/rtsp_url.txt"  # File containing the RTSP URL
+RTSP_SERVER_IP_FILE="$(dirname "$0")/rtsp_server_ip.txt"  # File containing the RTSP Server IP
 
 # Function to read the IP address from RTSP_ServerIP file
 function get_target_ip {
