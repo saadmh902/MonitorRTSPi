@@ -13,6 +13,9 @@ LOG_FILES=(
 RTSP_INFO_FILE="$(dirname "$0")/rtsp_url.txt"  # File containing the RTSP URL
 RTSP_SERVER_IP_FILE="$(dirname "$0")/rtsp_server_ip.txt"  # File containing the RTSP Server IP
 
+# Get the current username
+CURRENT_USER=$(whoami)
+
 # Function to read the IP address from RTSP_ServerIP file
 function get_target_ip {
     if [[ -f "$RTSP_SERVER_IP_FILE" ]]; then
@@ -30,7 +33,7 @@ function start_vlc {
     rtsp_url=$(< "$RTSP_INFO_FILE")
 
     echo "$(date): Starting VLC with stream: $rtsp_url..."
-    sudo -u hawk vlc --play-and-exit --fullscreen "$rtsp_url" > /dev/null 2> vlc_error.log &
+    sudo -u "$CURRENT_USER" vlc --play-and-exit --fullscreen "$rtsp_url" > /dev/null 2> vlc_error.log &
     # Wait for VLC to launch
     while ! pgrep -x "vlc" > /dev/null; do
         sleep 1  # Wait for 1 second before checking again
