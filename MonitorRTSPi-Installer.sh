@@ -15,6 +15,8 @@ FILES=(
     "$DIRECTORY/logged.log"
     "$DIRECTORY/vlc_error.log"
     "$DIRECTORY/MonitorRTSPi_Settings.txt"
+    "$DIRECTORY/OfflineLog.txt"
+    
 )
 AUTOSTART_FILE="/etc/xdg/autostart/launch.desktop"
 RTSP_URL_FILE="$DIRECTORY/rtsp_url.txt"        # File for RTSP Stream URL
@@ -102,5 +104,6 @@ sudo chown "$CURRENT_USER:$CURRENT_USER" $DIRECTORY/rtsp_url.txt
 sudo chown "$CURRENT_USER:$CURRENT_USER" $DIRECTORY/MonitorRTSPi_Settings.txt
 sudo chown "$CURRENT_USER:$CURRENT_USER" $DIRECTORY/logged.log
 sudo chown "$CURRENT_USER:$CURRENT_USER" $DIRECTORY/vlc_error.log
+sudo chown "$CURRENT_USER:$CURRENT_USER" $DIRECTORY/OfflineLog.txt
 echo Set ownership to $CURRENT_USER
 echo "All permissions set successfully."
