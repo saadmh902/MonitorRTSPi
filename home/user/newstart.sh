@@ -1,7 +1,7 @@
 #!/bin/bash
 # Check if VLC is running, if it crashes reopen VLC
 # Pings RTSP server, if it fails over and over again close VLC and ping RTSP server until it is open, then relaunch VLC
-
+CURRENT_USER=$(whoami)
 CHECK_INTERVAL=10  # Interval to check VLC logs and status
 RESTART_INTERVAL=604800 # Time in seconds to restart VLC (7 days)
 PING_INTERVAL=1     # Ping interval in seconds
