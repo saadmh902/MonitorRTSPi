@@ -6,10 +6,6 @@ CHECK_INTERVAL=10  # Interval to check VLC logs and status
 RESTART_INTERVAL=604800 # Time in seconds to restart VLC (7 days)
 PING_INTERVAL=1     # Ping interval in seconds
 MAX_FAILED_PINGS=6  # Number of failed pings before closing VLC
-LOG_FILES=(
-    "$(dirname "$0")/vlc-log.txt"
-    "$(dirname "$0")/vlc_log.txt"
-)
 RTSP_INFO_FILE="$(dirname "$0")/rtsp_url.txt"  # File containing the RTSP URL
 RTSP_SERVER_IP_FILE="$(dirname "$0")/rtsp_server_ip.txt"  # File containing the RTSP Server IP
 OFFLINE_LOG_FILE="$(dirname "$0")/OfflineLog.txt"  # File to log offline durations
@@ -50,7 +46,11 @@ function start_vlc {
     rtsp_url=$(< "$RTSP_INFO_FILE")
 
     echo "$(date): Starting VLC with stream: $rtsp_url..."
-    sudo -u "$CURRENT_USER" vlc --play-and-exit --fullscreen "$rtsp_url" > /dev/null 2> vlc_error.log &
+    vlc --play-and-exit --fullscreen "$rtsp_url" &> "$(dirname "$0")/vlc_error.log" &
+
+    # Make the error log readable and writable by anyone
+    chmod 666 "$(dirname "$0")/vlc_error.log"
+
     # Wait for VLC to launch
     while ! pgrep -x "vlc" > /dev/null; do
         sleep 1  # Wait for 1 second before checking again
@@ -60,22 +60,8 @@ function start_vlc {
 }
 
 function check_vlc_logs {
-    for LOG_FILE in "${LOG_FILES[@]}"; do
-        if [[ -f "$LOG_FILE" ]]; then
-            if grep -q -e "stream is not reachable" -e "Failed to connect with rtsp" "$LOG_FILE"; then
-                echo "$(date): Stream is down in $LOG_FILE! Handling VLC based on DebugMode..."
-
-                # If DebugMode is 1, handle it differently
-                if [[ "$DEBUG_MODE" -eq 1 ]]; then
-                    echo "$(date): DebugMode is 1, killing VLC after consecutive failed pings."
-                    check_ping  # This will handle the ping checks
-                else
-                    echo "$(date): DebugMode is 0, VLC will remain open."
-                fi
-                return
-            fi
-        fi
-    done
+    # Removed as per request
+    echo "$(date): Check for VLC logs is not implemented as per request."
 }
 
 function restart_vlc {
@@ -108,7 +94,7 @@ function check_ping {
             if [[ -n "$offline_start_time" ]]; then
                 local offline_end_time=$(date +%s)
                 local offline_duration=$((offline_end_time - offline_start_time))
-                echo "Seconds offline: $offline_duration" >> "$OFFLINE_LOG_FILE"
+                echo "$(date): Server was offline for $offline_duration seconds." >> "$OFFLINE_LOG_FILE"
                 offline_start_time=""
             fi
 
@@ -164,7 +150,6 @@ last_restart_time=$(date +%s)
 
 # Main loop to monitor VLC
 while true; do
-    check_vlc_logs
     check_vlc_playback
     check_ping
 
