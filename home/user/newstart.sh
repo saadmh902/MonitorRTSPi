@@ -16,16 +16,12 @@ DEBUG_MODE=0
 
 # Function to check for settings file and create if not exist
 function check_settings_file {
-    if [[ ! -f "$SETTINGS_FILE" ]]; then
-        echo "DebugMode=0" > "$SETTINGS_FILE"
-        chmod 644 "$SETTINGS_FILE"
-        echo "$(date): Created settings file with default DebugMode=0."
-    fi
-
-    # Read DebugMode setting
     if [[ -f "$SETTINGS_FILE" ]]; then
         DEBUG_MODE=$(grep -oP '(?<=DebugMode=)\d+' "$SETTINGS_FILE")
         echo "$(date): DebugMode is set to $DEBUG_MODE."
+    else
+        echo "$(date): Settings file not found! Using default DebugMode=0."
+        DEBUG_MODE=0
     fi
 }
 
