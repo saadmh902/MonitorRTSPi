@@ -45,11 +45,15 @@ function start_vlc {
     local rtsp_url
     rtsp_url=$(< "$RTSP_INFO_FILE")
 
-    echo "$(date): Starting VLC with stream: $rtsp_url..."
-    vlc --play-and-exit --fullscreen "$rtsp_url" &> "$(dirname "$0")/vlc_error.log" &
+    # Create or clear the vlc_error.log file and set permissions
+    local error_log_file="$(dirname "$0")/vlc_error.log"
+    touch "$error_log_file"  # Create the file if it doesn't exist
+    chmod 666 "$error_log_file"  # Make it readable and writable by anyone
 
-    # Make the error log readable and writable by anyone
-    chmod 666 "$(dirname "$0")/vlc_error.log"
+    echo "$(date): Starting VLC with stream: $rtsp_url..."
+    
+    # Run VLC as the current user with sudo, redirecting output to the error log
+    sudo -u "$CURRENT_USER" vlc --play-and-exit --fullscreen "$rtsp_url" > /dev/null 2> "$error_log_file" &
 
     # Wait for VLC to launch
     while ! pgrep -x "vlc" > /dev/null; do
