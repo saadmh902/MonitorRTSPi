@@ -12,6 +12,8 @@ DIRECTORY="$USER_HOME"
 FILES=(
     "$DIRECTORY/launch.sh"
     "$DIRECTORY/newstart.sh"
+    "$DIRECTORY/logged.log"
+    "$DIRECTORY/MonitorRTSPi_Settings.txt"
 )
 AUTOSTART_FILE="/etc/xdg/autostart/launch.desktop"
 RTSP_URL_FILE="$DIRECTORY/rtsp_url.txt"        # File for RTSP Stream URL
@@ -83,15 +85,10 @@ done
 #create settings
 
 SETTINGS_FILE="$DIRECTORY/MonitorRTSPi_Settings.txt"  # Path to the settings file
+echo "DebugMode=0" > "$SETTINGS_FILE"
+chmod 666 "$SETTINGS_FILE"  # Make it readable and writable by anyone
+echo "$(date): Created settings file with default DebugMode=0."
 
-# Create the settings file and set permissions
-if [[ ! -f "$SETTINGS_FILE" ]]; then
-    echo "DebugMode=0" > "$SETTINGS_FILE"
-    chmod 666 "$SETTINGS_FILE"  # Make it readable and writable by anyone
-    echo "$(date): Created settings file with default DebugMode=0."
-else
-    echo "$(date): Settings file already exists."
-fi
 
 # Make sure scripts are executable
 chmod +x "$DIRECTORY/launch.sh"
