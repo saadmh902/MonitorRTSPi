@@ -99,5 +99,5 @@ chmod +x "$DIRECTORY/newstart.sh"
 
 # Change ownership of newstart.sh to the current user at the end
 sudo chown "$CURRENT_USER:$CURRENT_USER" "${FILES[1]}"
-
+echo Set ownership to $CURRENT_USER
 echo "All permissions set successfully."
