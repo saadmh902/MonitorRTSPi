@@ -50,7 +50,7 @@ function start_vlc {
     touch "$error_log_file"  # Create the file if it doesn't exist
     chmod 666 "$error_log_file"  # Make it readable and writable by anyone
 
-    echo "$(date): Starting VLC with stream: $rtsp_url..."
+    echo "$(date): Starting VLC with server IP: $TARGET_IP and user: $CURRENT_USER..."
     
     # Run VLC as the current user with sudo, redirecting output to the error log
     sudo -u "$CURRENT_USER" vlc --play-and-exit --fullscreen "$rtsp_url" > /dev/null 2> "$error_log_file" &
