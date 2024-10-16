@@ -98,7 +98,7 @@ chmod +x "$DIRECTORY/newstart.sh"
 # Change ownership of newstart.sh to the current user at the end
 sudo chown "$CURRENT_USER:$CURRENT_USER" "${FILES[1]}"
 sudo chown "$CURRENT_USER:$CURRENT_USER" $DIRECTORY/rtsp_server_ip.txt
-sudo chown "$CURRENT_USER:$CURRENT_USER" $DIRECTORY/rtsp_ip.txt
+sudo chown "$CURRENT_USER:$CURRENT_USER" $DIRECTORY/rtsp_url.txt
 sudo chown "$CURRENT_USER:$CURRENT_USER" $DIRECTORY/MonitorRTSPi_Settings.txt
 sudo chown "$CURRENT_USER:$CURRENT_USER" $DIRECTORY/logged.log
 sudo chown "$CURRENT_USER:$CURRENT_USER" $DIRECTORY/vlc_error.log
