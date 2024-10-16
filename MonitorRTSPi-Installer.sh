@@ -92,7 +92,8 @@ echo "DebugMode=0" > "$SETTINGS_FILE"
 chmod 666 "$SETTINGS_FILE"  # Make it readable and writable by anyone
 echo "$(date): Created settings file with default DebugMode=0."
 
-
+#create OfflineLog.txt
+touch $DIRECTORY/OfflineLog.txt
 # Make sure scripts are executable
 chmod +x "$DIRECTORY/launch.sh"
 chmod +x "$DIRECTORY/newstart.sh"
