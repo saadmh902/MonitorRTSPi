@@ -80,6 +80,19 @@ for FILE in "${FILES[@]}"; do
     fi
 done
 
+#create settings
+
+SETTINGS_FILE="$DIRECTORY/MonitorRTSPi_Settings.txt"  # Path to the settings file
+
+# Create the settings file and set permissions
+if [[ ! -f "$SETTINGS_FILE" ]]; then
+    echo "DebugMode=0" > "$SETTINGS_FILE"
+    chmod 666 "$SETTINGS_FILE"  # Make it readable and writable by anyone
+    echo "$(date): Created settings file with default DebugMode=0."
+else
+    echo "$(date): Settings file already exists."
+fi
+
 # Make sure scripts are executable
 chmod +x "$DIRECTORY/launch.sh"
 chmod +x "$DIRECTORY/newstart.sh"
